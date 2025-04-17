@@ -10,6 +10,8 @@ class PomodoroTimer {
         this.pauseButton = document.getElementById('pause');
         this.resetButton = document.getElementById('reset');
         this.modeButtons = document.querySelectorAll('.mode-icon');
+        this.currentTimeDisplay = document.getElementById('current-time');
+        this.timeIcon = document.querySelector('.current-time i');
         
         // Set initial active mode
         this.activeMode = document.getElementById('standard');
@@ -24,7 +26,27 @@ class PomodoroTimer {
             button.addEventListener('click', () => this.handleModeChange(button));
         });
         
+        // Update current time every second
+        this.updateCurrentTime();
+        setInterval(() => this.updateCurrentTime(), 1000);
+        
         this.updateDisplay();
+    }
+    
+    updateCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        
+        // Update time display
+        this.currentTimeDisplay.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        
+        // Update sun/moon icon
+        if (hours >= 6 && hours < 18) {
+            this.timeIcon.className = 'fas fa-sun';
+        } else {
+            this.timeIcon.className = 'fas fa-moon';
+        }
     }
     
     start() {

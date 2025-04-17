@@ -20,6 +20,7 @@ body {
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
+    position: relative;
 }
 
 .container:hover {
@@ -133,4 +134,25 @@ button:hover {
 #breathwork:checked + label {
     background-color: #355e3b;
     color: white;
+}
+
+.current-time {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.current-time i {
+    font-size: 1.2rem;
+    color: #f1c40f;
+}
+
+.current-time i.fa-moon {
+    color: #34495e;
 } 
