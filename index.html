@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Timer</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -18,15 +19,19 @@
             </div>
         </div>
         <div class="mode-selector">
-            <div class="slider-container">
-                <input type="radio" id="standard" name="timer-mode" value="25" checked>
-                <label for="standard">Standard (25 min)</label>
-                
-                <input type="radio" id="break" name="timer-mode" value="5">
-                <label for="break">Break (5 min)</label>
-                
-                <input type="radio" id="breathwork" name="timer-mode" value="10">
-                <label for="breathwork">Breathwork (10 min)</label>
+            <div class="icon-container">
+                <button class="mode-icon" id="standard" data-time="25">
+                    <i class="fas fa-clock"></i>
+                    <span>25 min</span>
+                </button>
+                <button class="mode-icon" id="break" data-time="5">
+                    <i class="fas fa-coffee"></i>
+                    <span>5 min</span>
+                </button>
+                <button class="mode-icon" id="breathwork" data-time="10">
+                    <i class="fas fa-wind"></i>
+                    <span>10 min</span>
+                </button>
             </div>
         </div>
     </div>

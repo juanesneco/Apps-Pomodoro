@@ -9,15 +9,19 @@ class PomodoroTimer {
         this.startButton = document.getElementById('start');
         this.pauseButton = document.getElementById('pause');
         this.resetButton = document.getElementById('reset');
-        this.modeInputs = document.querySelectorAll('input[name="timer-mode"]');
+        this.modeButtons = document.querySelectorAll('.mode-icon');
+        
+        // Set initial active mode
+        this.activeMode = document.getElementById('standard');
+        this.activeMode.classList.add('active');
         
         // Event Listeners
         this.startButton.addEventListener('click', () => this.start());
         this.pauseButton.addEventListener('click', () => this.pause());
         this.resetButton.addEventListener('click', () => this.reset());
         
-        this.modeInputs.forEach(input => {
-            input.addEventListener('change', () => this.handleModeChange(input));
+        this.modeButtons.forEach(button => {
+            button.addEventListener('click', () => this.handleModeChange(button));
         });
         
         this.updateDisplay();
@@ -47,26 +51,27 @@ class PomodoroTimer {
     
     reset() {
         this.pause();
-        const activeMode = document.querySelector('input[name="timer-mode"]:checked');
-        this.timeLeft = parseInt(activeMode.value) * 60;
+        this.timeLeft = parseInt(this.activeMode.dataset.time) * 60;
         this.updateDisplay();
     }
     
-    handleModeChange(input) {
+    handleModeChange(button) {
         if (this.isRunning) {
             if (confirm('Timer is running. Do you want to stop the current timer and switch modes?')) {
                 this.pause();
-                this.timeLeft = parseInt(input.value) * 60;
-                this.updateDisplay();
-            } else {
-                // Revert the radio button selection
-                const previousMode = document.querySelector('input[name="timer-mode"]:checked');
-                previousMode.checked = true;
+                this.switchMode(button);
             }
         } else {
-            this.timeLeft = parseInt(input.value) * 60;
-            this.updateDisplay();
+            this.switchMode(button);
         }
+    }
+    
+    switchMode(button) {
+        this.activeMode.classList.remove('active');
+        button.classList.add('active');
+        this.activeMode = button;
+        this.timeLeft = parseInt(button.dataset.time) * 60;
+        this.updateDisplay();
     }
     
     updateDisplay() {
