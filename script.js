@@ -9,6 +9,7 @@ class PomodoroTimer {
         this.startButton = document.getElementById('start');
         this.pauseButton = document.getElementById('pause');
         this.resetButton = document.getElementById('reset');
+        this.addTimeButton = document.getElementById('add-time');
         this.modeButtons = document.querySelectorAll('.mode-icon');
         this.currentTimeDisplay = document.getElementById('current-time');
         this.timeIcon = document.querySelector('.current-time i');
@@ -21,6 +22,7 @@ class PomodoroTimer {
         this.startButton.addEventListener('click', () => this.start());
         this.pauseButton.addEventListener('click', () => this.pause());
         this.resetButton.addEventListener('click', () => this.reset());
+        this.addTimeButton.addEventListener('click', () => this.addTime());
         
         this.modeButtons.forEach(button => {
             button.addEventListener('click', () => this.handleModeChange(button));
@@ -52,6 +54,7 @@ class PomodoroTimer {
     start() {
         if (!this.isRunning) {
             this.isRunning = true;
+            this.addTimeButton.classList.remove('disabled');
             this.timerId = setInterval(() => {
                 this.timeLeft--;
                 this.updateDisplay();
@@ -67,14 +70,23 @@ class PomodoroTimer {
     pause() {
         if (this.isRunning) {
             this.isRunning = false;
+            this.addTimeButton.classList.add('disabled');
             clearInterval(this.timerId);
         }
     }
     
     reset() {
         this.pause();
+        this.addTimeButton.classList.add('disabled');
         this.timeLeft = parseInt(this.activeMode.dataset.time) * 60;
         this.updateDisplay();
+    }
+    
+    addTime() {
+        if (this.isRunning) {
+            this.timeLeft += 5 * 60; // Add 5 minutes
+            this.updateDisplay();
+        }
     }
     
     handleModeChange(button) {
