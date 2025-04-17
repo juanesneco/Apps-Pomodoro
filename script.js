@@ -13,16 +13,21 @@ class PomodoroTimer {
         this.modeButtons = document.querySelectorAll('.mode-icon');
         this.currentTimeDisplay = document.getElementById('current-time');
         this.timeIcon = document.querySelector('.current-time i');
+        this.themeToggle = document.getElementById('theme-toggle');
         
         // Set initial active mode
         this.activeMode = document.getElementById('standard');
         this.activeMode.classList.add('active');
+        
+        // Initialize theme
+        this.initTheme();
         
         // Event Listeners
         this.startButton.addEventListener('click', () => this.start());
         this.pauseButton.addEventListener('click', () => this.pause());
         this.resetButton.addEventListener('click', () => this.reset());
         this.addTimeButton.addEventListener('click', () => this.addTime());
+        this.themeToggle.addEventListener('change', () => this.toggleTheme());
         
         this.modeButtons.forEach(button => {
             button.addEventListener('click', () => this.handleModeChange(button));
@@ -33,6 +38,31 @@ class PomodoroTimer {
         setInterval(() => this.updateCurrentTime(), 1000);
         
         this.updateDisplay();
+    }
+    
+    initTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        this.themeToggle.checked = savedTheme === 'dark';
+        this.updateThemeColors(savedTheme);
+    }
+    
+    toggleTheme() {
+        const newTheme = this.themeToggle.checked ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        this.updateThemeColors(newTheme);
+    }
+    
+    updateThemeColors(theme) {
+        const slider = document.querySelector('.slider');
+        if (theme === 'dark') {
+            slider.style.backgroundColor = '#2c3e50';
+            slider.style.borderColor = '#34495e';
+        } else {
+            slider.style.backgroundColor = 'white';
+            slider.style.borderColor = '#e1e1e1';
+        }
     }
     
     updateCurrentTime() {
